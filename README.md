@@ -9,62 +9,166 @@
 
 
 
-
 # Monad Faucet Automation
 
-A comprehensive overview of Monad Lab's groundbreaking $225 million funding round led by Paradigm and its revolutionary contributions to the Ethereum ecosystem through an EVM-compatible Layer 1 blockchain.
+An automated solution for claiming tokens from the Monad Faucet. Designed specifically for the innovative Monad network—a Layer 1 blockchain and EVM-compatible platform—the script simplifies the token claim process by automating captcha solving, proxy management, and multi-wallet handling.
 
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Key Announcements](#key-announcements)
-- [Technical Innovations](#technical-innovations)
-- [Ecosystem and Community](#ecosystem-and-community)
-- [Fundraising Highlights](#fundraising-highlights)
+- [Features](#features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+  - [Wallet Configuration](#wallet-configuration)
+  - [Proxy Setup](#proxy-setup)
+  - [Script Settings](#script-settings)
+- [Usage](#usage)
+- [Logs](#logs)
+- [About Monad](#about-monad)
 - [Contribution](#contribution)
 - [License](#license)
 
 ## Project Overview
 
-**Monad Fundraise** outlines the success story of Monad Lab—a pioneering project building an Ethereum Virtual Machine (EVM)-compatible Layer 1 blockchain. Designed to enhance the overall Ethereum ecosystem, Monad leverages cutting-edge parallel execution of transactions to achieve greater efficiency without sacrificing security or compatibility. This repository provides a detailed narrative of the recent funding round and insight into the innovative technology powering Monad.
+**Monad Faucet Automation** is a tool designed for users looking to claim tokens from the Monad Faucet effortlessly. Built with advanced automation techniques, this script leverages automated captcha solutions, proxy support, and multi-threaded processing to ensure that every claim is handled quickly and efficiently on Monad’s cutting-edge Layer 1 blockchain.
 
-## Key Announcements
+Monad is known for its innovative parallel transaction processing, which enhances the overall Ethereum ecosystem by providing a more scalable and efficient network. This faucet automation tool is tailored to help users engage with the Monad network by streamlining token distribution from the faucet.
 
-- **Funding Success:** Monad Lab has raised an impressive **$225 million**, spearheaded by [Paradigm](https://www.paradigm.xyz/).
-- **Investor Participation:** The round attracted top-tier firms including Electric Capital, Coinbase Ventures, Castle Island Ventures, GSR Ventures, and Greenoaks.
-- **Notable Angel Investors:** Influential backers such as Inversebrah, Ansem, Hsaka, punk6529, Eric Wall, Rune Christensen, Bryan Pellegrino, Luca Netz, and Mert Mumtaz have also contributed.
+## Features
 
-## Technical Innovations
+- **Automated Captcha Solving:** Integrates with captcha-solving services (e.g., 2Captcha) to bypass Turnstile challenges automatically.
+- **Proxy Support:** Works seamlessly with both non-authenticated (`ip:port`) and authenticated proxies (`ip:port:user:pass`) for added security and reliability.
+- **Multi-threaded Wallet Claims:** Processes multiple wallet addresses concurrently to maximize efficiency.
+- **Flexible Wallet Input:** Supports wallet addresses through plain text (`wallet.txt`) or JSON files (`wallets.json`).
+- **Detailed Logging:** Tracks successful token claims in `success.txt` and logs any failures in `fail.txt` for easy troubleshooting.
 
-Monad Lab’s core innovation lies in its ability to process **parallel execution** for EVM transactions with independent dependencies. Key features include:
+## Installation
 
-- **EVM-Compatibility:** Ensures that applications originally written for Ethereum work seamlessly on Monad.
-- **Parallel Transaction Execution:** While transactions remain linearly ordered, Monad’s architecture identifies and executes non-dependent transactions concurrently. This minimizes delays, boosts throughput, and optimizes performance.
-- **Layer 1 Scalability:** As a Layer 1 blockchain, Monad enhances the Ethereum ecosystem by improving transaction processing speeds and accommodating high-volume decentralized applications without compromising on security.
+### Clone the Repository
 
-## Ecosystem and Community
+Clone the repository from GitHub to begin using the Monad Faucet Automation tool:
 
-Monad is designed to foster a robust ecosystem that benefits developers and users alike:
+```bash
+git clone https://github.com/Aero25x/megaeth-faucet.git
+cd monad-faucet
+```
 
-- **Developer-Friendly:** By maintaining full compatibility with Ethereum’s toolset, Monad allows developers to port and deploy decentralized applications with minimal adjustments.
-- **Enhanced Efficiency:** The novel approach to transaction processing results in a smoother, more efficient network that can serve high-demand applications.
-- **Community-Driven Innovation:** Contributions from prominent investors and industry influencers highlight the trust and community support driving Monad forward.
+### Install Dependencies
 
-## Fundraising Highlights
+Install the required dependencies using pip:
 
-The recent funding round is a testament to the transformative potential of Monad Lab. Key highlights include:
+```bash
+pip install requests colorama twocaptcha pytz tzlocal
+pip install 2captcha-python==1.5.1
+```
 
-- **Strategic Leadership:** Led by Paradigm, the funding underscores strong market confidence in Monad Lab's vision.
-- **Diverse Investment Portfolio:** Contributions from a mix of VC firms and angel investors demonstrate broad-based support across the crypto and blockchain communities.
-- **Future Outlook:** With $225 million secured, Monad Lab is poised to accelerate development, expand its ecosystem, and further integrate into the broader Ethereum environment.
+*Ensure you have Python 3.x installed in your environment.*
+
+## Configuration
+
+Before executing the script, you need to update your configuration files and script settings accordingly.
+
+### Wallet Configuration
+
+#### `wallet.txt`
+
+List your Monad wallet addresses, one address per line:
+
+```text
+0xYourMonadWalletAddress1
+0xYourMonadWalletAddress2
+```
+
+#### `wallets.json` (Optional)
+
+You can also include wallet addresses using a JSON file:
+
+```json
+[
+    {"address": "0xYourMonadWalletAddress3"},
+    {"address": "0xYourMonadWalletAddress4"}
+]
+```
+
+Wallet addresses from both sources will be combined for processing.
+
+### Proxy Setup
+
+#### `proxy.txt`
+
+Provide your proxy details in one of the following formats:
+
+- **Without Authentication:**
+
+  ```text
+  192.168.1.100:8080
+  ```
+
+- **With Authentication:**
+
+  ```text
+  31.56.139.207:6276:hxjsvept:3pzgwox5suvu
+  ```
+
+### Script Settings
+
+Open the main script file (e.g., `main.py`) and update the following parameters with your credentials and settings:
+
+```python
+TWO_CAPTCHA_API_KEY = "Your_2Captcha_API_Key"
+TURNSTILE_SITEKEY = "Your_Turnstile_Sitekey"
+TURNSTILE_PAGE_URL = "https://faucet.monad.network/"
+```
+
+Adjust additional options such as thread count and API endpoints as per your requirements.
+
+## Usage
+
+Run the script to start claiming tokens from the Monad Faucet:
+
+```bash
+python main.py
+```
+
+### Example Output
+
+```
+Processing wallet: 0xYourMonadWalletAddress1
+Attempt 1: Using proxy IP 31.56.139.207
+Requesting captcha solution from 2Captcha...
+Captcha solved successfully.
+Claim response: https://explorer.monad.network/tx/transaction_hash_here
+Claim SUCCESS for wallet 0xYourMonadWalletAddress1
+```
+
+## Logs
+
+- **Successful Claims:** Stored in `success.txt`
+- **Failed Claims:** Recorded in `fail.txt`
+
+## About Monad
+
+Monad is an EVM-compatible Layer 1 blockchain designed to enhance Ethereum's scalability. By enabling parallel execution for transactions, Monad helps improve throughput without compromising the seamless user and developer experience. Applications built on Ethereum work effortlessly on Monad, making it an ideal network for both new projects and established decentralized applications.
 
 ## Contribution
 
-Contributions to this repository and the ongoing discussion around Monad’s innovations are welcome. Whether you’re an investor, developer, or blockchain enthusiast, your insights can help shape the future of Monad. Please open an issue or submit a pull request for discussions, improvements, or any corrections.
+Contributions are always welcome! Whether you want to improve the code, add new features, or fix bugs, please open an issue or submit a pull request. Your input helps make the Monad Faucet Automation tool more robust and user-friendly.
 
 ## License
 
-This repository is open source and available under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 [![Join our Telegram RU](https://img.shields.io/badge/Telegram-RU-03A500?style=for-the-badge&logo=telegram&logoColor=white&labelColor=blue&color=red)](https://t.me/hidden_coding)
@@ -73,6 +177,3 @@ This repository is open source and available under the [MIT License](LICENSE).
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@flaming_chameleon)
 [![Reddit](https://img.shields.io/badge/Reddit-FF3A00?style=for-the-badge&logo=reddit&logoColor=white)](https://www.reddit.com/r/HiddenCode/)
 [![Join our Telegram ENG](https://img.shields.io/badge/Telegram-EN-03A500?style=for-the-badge&logo=telegram&logoColor=white&labelColor=blue&color=red)](https://t.me/hidden_coding_en)
-
-
-
